@@ -1,4 +1,4 @@
-using System;
+using UnityEngine;
 
 public class BoardState : IState
 {
@@ -6,18 +6,24 @@ public class BoardState : IState
 
     private Pen selectedPen;
 
+    private GameStateController gameStateController;
+
     public bool IsStateDone { get; private set; }
+
+
+    public BoardState(GameStateController gameStateController)
+    {
+        this.gameStateController = gameStateController;
+    }
 
     public void OnEnter()
     {
-        UnityEngine.Debug.Log("Board State entered");
-
         ClickableObject.OnAnyObjectClicked += OnAnyObjectClicked;
     }
 
     public void OnExit()
     {
-
+        ClickableObject.OnAnyObjectClicked -= OnAnyObjectClicked;
     }
 
     private void OnAnyObjectClicked(ClickableObject obj)
@@ -32,9 +38,31 @@ public class BoardState : IState
         var board = obj.GetComponent<Board>();
         if(board != null && selectedPen != null)
         {
-            // Draw board here
+            var seq = LeanTween.sequence();
 
-            IsStateDone = true;
+            seq.append(() => {
+                LeanTween.move(selectedPen.gameObject, gameStateController.PenTransformOnBoard.position, 0.5f);
+                LeanTween.rotate(selectedPen.gameObject, gameStateController.PenTransformOnBoard.eulerAngles, 0.5f);
+            });
+            seq.append(0.5f);
+
+            seq.append(() => {
+                LeanTween.move(selectedPen.gameObject, selectedPen.transform.position + Vector3.right * 0.5f, .3f).setLoopPingPong(2);
+            });
+            seq.append(0.3f * 4);
+
+
+            seq.append(() => {
+                board.PaintBoardToBlack();
+
+                LeanTween.move(selectedPen.gameObject, gameStateController.DropPenTransform.position, 0.7f);
+                LeanTween.rotate(selectedPen.gameObject, gameStateController.DropPenTransform.eulerAngles, 0.7f);
+            });
+            seq.append(0.3f);
+
+            seq.append(() => {
+                IsStateDone = true;
+            });
         }
     }
 }

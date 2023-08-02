@@ -5,7 +5,15 @@ public class GameStateController : MonoBehaviour
     [SerializeField]
     private Transform penTransformOnBoard;
     
+    [SerializeField]
+    private Transform dropPenTransform;
+
     private StateMachine stateMachine;
+
+
+    public Transform PenTransformOnBoard => penTransformOnBoard;
+
+    public Transform DropPenTransform => dropPenTransform;
 
     private void Start()
     {
@@ -16,7 +24,7 @@ public class GameStateController : MonoBehaviour
 
     private void InitializeStateMachine()
     {
-        var boardState  = new BoardState();
+        var boardState  = new BoardState(this);
         var cupState    = new CupState();
         var plantState  = new PlantState();
         var binState    = new BinState();
