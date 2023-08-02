@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace NotDecided.InputManagament
@@ -14,6 +15,8 @@ namespace NotDecided.InputManagament
         private bool pointerWasOnUI;
 
         private bool isInputDisabled;
+
+        public static event Action OnAnyPointerUp;
 
         private void Awake()
         {
@@ -79,13 +82,17 @@ namespace NotDecided.InputManagament
             {
                 hit.transform.GetComponent<IPointerUpHandler>()?.OnPointerUp(hit.point);
             }
+
+            // NOTE: Call this before OnPointerUp call
+            OnAnyPointerUp?.Invoke();
         }
 
         private void RaycastFromCamera(Vector3 pos,out RaycastHit hit)
         {
             Ray ray = currCamera.ScreenPointToRay(pos);
+            var distance = currCamera.farClipPlane - currCamera.nearClipPlane;
 
-            // Debug.DrawRay(ray.origin, ray.direction*100, Color.red, 2f);
+            // Debug.DrawRay(ray.origin, ray.direction * distance, Color.red, 2f);
             Physics.Raycast(
                 ray,
                 out hit,
