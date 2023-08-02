@@ -10,7 +10,7 @@ public class PlantState : IState, IStateTickable
 
     private GameStateController gameStateController;
 
-    private const float PlantTime = 5f;
+    private const float PlantTime = 2f;
 
     private float plantProgress;
 

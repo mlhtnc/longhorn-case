@@ -1,5 +1,5 @@
-using System;
 using NotDecided.InputManagament;
+using UnityEngine;
 
 public class BinState : IState
 {
@@ -22,6 +22,10 @@ public class BinState : IState
         {
             ThrowCup();
         }
+        else
+        {
+            isCupDragged = true;
+        }
 
         gameStateController.Cup.OnDragStarted += OnDragStarted;
         InputManager.OnAnyPointerUp += OnAnyPointerUp;
@@ -36,6 +40,8 @@ public class BinState : IState
     private void OnDragStarted()
     {
         isCupDragged = true;
+        gameStateController.Cup.GetComponent<Cup>().DisableRigidbody();
+        gameStateController.Cup.EnableDrag();
     }
 
     private void OnAnyPointerUp()
@@ -49,16 +55,32 @@ public class BinState : IState
                 var bin = hit.collider.GetComponent<Bin>();
                 if(bin != null)
                 {
-                    // TODO: Cup goes into bin animation
+                    var animTime = 0.4f;
+
+                    var cupGo = gameStateController.Cup.gameObject;
+                    
+                    LeanTween.scale(cupGo, Vector3.one * 0.1f, animTime);
+                    LeanTween.moveY(cupGo, bin.transform.position.y, animTime).setEaseInBack();
+                    LeanTween.moveX(cupGo, bin.transform.position.x, animTime);
+                    LeanTween.moveZ(cupGo, bin.transform.position.z, animTime)
+                    .setOnComplete(() => {
+                        cupGo.SetActive(false);
+                    });
 
                     IsStateDone = true;
                 }
+                else
+                {
+                    ThrowCup();
+                }
             }
+
+            isCupDragged = false;
         }
     }
 
     private void ThrowCup()
     {
-        UnityEngine.Debug.Log("Throw Cup");
+        gameStateController.Cup.GetComponent<Cup>().ThrowCup();
     }
 }

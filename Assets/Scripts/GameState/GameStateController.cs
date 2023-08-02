@@ -66,6 +66,7 @@ public class GameStateController : MonoBehaviour
     private void InitializeStateMachine()
     {
         cup.DisableDrag();
+        cup.GetComponent<Cup>().DisableRigidbody();
         InitialCupPos = Cup.transform.position;
 
         var boardState  = new BoardState(this);
