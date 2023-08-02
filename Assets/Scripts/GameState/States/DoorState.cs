@@ -4,11 +4,11 @@ public class DoorState : IState
 
     public void OnEnter()
     {
-        throw new System.NotImplementedException();
+        UnityEngine.Debug.Log("Door State Entered");
     }
 
     public void OnExit()
     {
-        throw new System.NotImplementedException();
+
     }
 }

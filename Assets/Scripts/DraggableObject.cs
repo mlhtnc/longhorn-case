@@ -1,9 +1,16 @@
+using System;
 using UnityEngine;
 
 public class DraggableObject : ClickableObject
 {
     [SerializeField]
     private LayerMask layerMask;
+
+    private bool isDragDisabled;
+
+    public event Action OnDragStarted;
+
+    public bool IsDragging => isPointerDown;
 
     protected override void Start()
     {
@@ -12,16 +19,26 @@ public class DraggableObject : ClickableObject
 
     private void Update()
     {
+        if(isDragDisabled)
+            return;
+        
         if(isPointerDown)
         {
             OnDragged();
         }
     }
 
-    private void OnDragged()
+    public override void OnPointerDown(Vector3 pos)
     {
-        Debug.Log("Dragged");
-    
+        base.OnPointerDown(pos);
+
+        OnDragStarted?.Invoke();
+
+        Debug.Log(transform.name);
+    }
+
+    private void OnDragged()
+    {    
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         var distance = Camera.main.farClipPlane - Camera.main.nearClipPlane;
 
@@ -43,5 +60,15 @@ public class DraggableObject : ClickableObject
         newPos.y += .1f;
 
         transform.position = newPos;
+    }
+
+    public void EnableDrag()
+    {
+        isDragDisabled = false;
+    }
+
+    public void DisableDrag()
+    {
+        isDragDisabled = true;
     }
 }

@@ -200,6 +200,8 @@ Transform:
   m_Children:
   - {fileID: 925868536}
   - {fileID: 544393445}
+  - {fileID: 1254885182}
+  - {fileID: 319326474}
   m_Father: {fileID: 1633190596}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -217,6 +219,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   penTransformOnBoard: {fileID: 925868536}
   dropPenTransform: {fileID: 544393445}
+  dropCupTransform: {fileID: 1254885182}
+  cupPlantTransform: {fileID: 319326474}
+  cup: {fileID: 1668286819}
+  waterDispenser: {fileID: 460903198}
+  cupLayerMask:
+    serializedVersion: 2
+    m_Bits: 55
 --- !u!1 &64866767
 GameObject:
   m_ObjectHideFlags: 0
@@ -683,6 +692,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.30449834, y: 0.1356674, z: 0.29940212}
   m_Center: {x: 0.006093912, y: 0.0039648563, z: 0.0018850857}
+--- !u!1 &319326473
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 319326474}
+  m_Layer: 0
+  m_Name: CupPlantTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &319326474
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319326473}
+  m_LocalRotation: {x: -0.3418254, y: 0.61899555, z: 0.46661174, w: 0.53129417}
+  m_LocalPosition: {x: -1.192, y: -0.606, z: 0.692}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 59222384}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: -70.2, y: 90, z: 12.383}
 --- !u!1 &420444136 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8597855651660641000, guid: 63592b06c95d24828ac0c0891a5cb176, type: 3}
@@ -2186,6 +2226,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 447e8e1902a671a41b9b30e184ae4de2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1254885181
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1254885182}
+  m_Layer: 0
+  m_Name: DropCupTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1254885182
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1254885181}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -0.602, y: -1.026, z: 0.646}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 59222384}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1001 &1275117783
 PrefabInstance:
   m_ObjectHideFlags: 0
