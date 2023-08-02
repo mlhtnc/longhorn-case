@@ -39,8 +39,6 @@ public class DraggableObject : ClickableObject
             return;
         }
         
-        Debug.Log(hit.collider.name);
-
         var newPos = 0.4f * -ray.direction + hit.point;
         newPos.y += .1f;
 
