@@ -103,6 +103,8 @@ public class PlantState : IState, IStateTickable
     {
         LeanTween.move(gameStateController.Cup.gameObject, gameStateController.InitialCupPos, 0.3f);
         LeanTween.rotate(gameStateController.Cup.gameObject, gameStateController.DropCupTransform.eulerAngles, 0.3f);
+
+        gameStateController.Cup.GetComponent<Cup>().StopDropletParticle();
     }
 
 }
