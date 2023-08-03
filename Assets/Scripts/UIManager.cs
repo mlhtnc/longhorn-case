@@ -8,6 +8,9 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Image circleImage;
 
+    [SerializeField]
+    private ParticleSystem confettiParticle;
+
     private void Awake()
     {
         if(Instance != null)
@@ -16,16 +19,6 @@ public class UIManager : MonoBehaviour
         }
 
         Instance = this;
-    }
-
-    private void Start()
-    {
-        
-    }
-
-    private void Update()
-    {
-        
     }
 
     public void StartDoorCircleAnimation()
@@ -46,6 +39,7 @@ public class UIManager : MonoBehaviour
         LeanTween.cancel(circleImage.gameObject);
         circleImage.gameObject.SetActive(false);
 
-
+        confettiParticle.gameObject.SetActive(true);
+        confettiParticle.Play();
     }
 }
