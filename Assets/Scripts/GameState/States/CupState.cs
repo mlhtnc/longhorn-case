@@ -8,6 +8,8 @@ public class CupState : IState
 
     private bool isWaterFilling;
 
+    private DraggableObject cupDraggable;
+
 
     public bool IsStateDone { get; private set; }
 
@@ -17,20 +19,21 @@ public class CupState : IState
     public CupState(GameStateController gameStateController)
     {
         this.gameStateController = gameStateController;
+        this.cupDraggable        = gameStateController.Cup;
     }
 
     public void OnEnter()
     {
-        this.gameStateController.Cup.EnableDrag();
+        this.cupDraggable.EnableDrag();
 
-        gameStateController.Cup.OnDragStopped += OnDragStopped;
-        ClickableObject.OnAnyObjectClicked += OnAnyObjClicked;
+        cupDraggable.OnDragStopped          += OnDragStopped;
+        ClickableObject.OnAnyObjectClicked  += OnAnyObjClicked;
     }
 
     public void OnExit()
     {
-        gameStateController.Cup.OnDragStopped -= OnDragStopped;
-        ClickableObject.OnAnyObjectClicked -= OnAnyObjClicked;
+        cupDraggable.OnDragStopped          -= OnDragStopped;
+        ClickableObject.OnAnyObjectClicked  -= OnAnyObjClicked;
     }
 
     private void OnDragStopped()
@@ -45,8 +48,8 @@ public class CupState : IState
             var waterDispenser = hit.collider.GetComponent<WaterDispenser>();
             if(waterDispenser != null)
             {
-                this.gameStateController.Cup.DisableDrag();
-                LeanTween.move(gameStateController.Cup.gameObject, gameStateController.DropCupTransform.position, 0.2f);
+                this.cupDraggable.DisableDrag();
+                LeanTween.move(cupDraggable.gameObject, gameStateController.DropCupTransform.position, 0.2f);
 
                 isCupPlacedIntoWaterDispenser = true;
 
@@ -54,7 +57,7 @@ public class CupState : IState
             }            
         }
 
-        LeanTween.move(gameStateController.Cup.gameObject, gameStateController.InitialCupPos, 0.3f);
+        LeanTween.move(cupDraggable.gameObject, gameStateController.InitialCupPos, 0.3f);
     }
     
     private void OnAnyObjClicked(ClickableObject obj)
@@ -74,7 +77,7 @@ public class CupState : IState
             seq.append(() => {
                 waterDispenser.PlayDropletParticle();
 
-                var renderer = gameStateController.Cup.GetComponent<Renderer>();
+                var renderer = cupDraggable.GetComponent<Renderer>();
 
                 LeanTween.value(gameStateController.Cup.gameObject, 0f, 1f, animTime)
                 .setOnUpdate((float val) => {

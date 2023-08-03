@@ -10,6 +10,10 @@ public class PlantState : IState, IStateTickable
 
     private float plantProgress;
 
+    private Cup cup;
+
+    private DraggableObject cupDraggable;
+
 
     public int Id => (int) GameState.PlantState;
 
@@ -19,23 +23,25 @@ public class PlantState : IState, IStateTickable
     public PlantState(GameStateController gameStateController)
     {
         this.gameStateController = gameStateController;
+        this.cup                 = gameStateController.Cup.GetComponent<Cup>();
+        this.cupDraggable        = gameStateController.Cup;
     }
 
     public void OnEnter()
     {
-        gameStateController.Cup.OnDragStarted += OnDragStarted;
-        InputManager.OnAnyPointerUp           += OnAnyPointerUp;
+        cupDraggable.OnDragStarted      += OnDragStarted;
+        InputManager.OnAnyPointerUp     += OnAnyPointerUp;
     }
 
     public void OnExit()
     {
-        gameStateController.Cup.OnDragStarted -= OnDragStarted;
-        InputManager.OnAnyPointerUp           -= OnAnyPointerUp;
+        cupDraggable.OnDragStarted      -= OnDragStarted;
+        InputManager.OnAnyPointerUp     -= OnAnyPointerUp;
     }
 
     public void Tick(float deltaTime)
     {
-        if(gameStateController.Cup.IsDragging == false)
+        if(cupDraggable.IsDragging == false)
             return;
 
         var hit = gameStateController.Raycast(gameStateController.CupLayerMask);
@@ -48,48 +54,60 @@ public class PlantState : IState, IStateTickable
                 plantProgress += Time.deltaTime;
                 if(plantProgress >= PlantTime)
                 {
-                    StopPlanting();
-                    IsStateDone = true;
-
-                    LeanTween.scale(plant.gameObject, plant.transform.localScale * 1.3f, 0.7f).setEaseInOutBack();
+                    OnWateringFinished(plant);
                 }
                 else
                 {
-                    var color = Color.Lerp(Color.blue, Color.white, plantProgress / PlantTime);
-                    var renderer = gameStateController.Cup.GetComponent<Renderer>();
-                    renderer.material.color = color;
-
-                    ContinuePlanting();
+                    UpdateCupColor();
+                    ContinueWatering();
                 }
             }
             else
             {
-                StopPlanting();
+                StopWatering();
             }
         }        
     }
 
-    private void ContinuePlanting()
+    private void ContinueWatering()
     {
-        gameStateController.Cup.GetComponent<Cup>().PlayDropletParticle();
+        var cupAngles               = cupDraggable.transform.eulerAngles;
+        var cupPlantTransformAngle  = gameStateController.CupPlantTransform.eulerAngles;
 
-        if(LeanTween.isTweening(gameStateController.Cup.gameObject) == false &&
-            gameStateController.Cup.transform.eulerAngles != gameStateController.CupPlantTransform.eulerAngles)
+        if(LeanTween.isTweening(cupDraggable.gameObject) == false && cupAngles != cupPlantTransformAngle)
         {
-            LeanTween.rotate(gameStateController.Cup.gameObject, gameStateController.CupPlantTransform.eulerAngles, 0.3f);
+            LeanTween.rotate(cupDraggable.gameObject, cupPlantTransformAngle, 0.3f);
         }
 
+        cup.PlayDropletParticle();
     }
 
-    private void StopPlanting()
+    private void StopWatering()
     {
-        if(LeanTween.isTweening(gameStateController.Cup.gameObject) == false &&
-            gameStateController.Cup.transform.eulerAngles != gameStateController.DropCupTransform.eulerAngles)
+        var cupAngles               = cupDraggable.transform.eulerAngles;
+        var dropCupTransformAngle   = gameStateController.DropCupTransform.eulerAngles;
+
+        if(LeanTween.isTweening(cupDraggable.gameObject) == false && cupAngles != dropCupTransformAngle)
         {
-            LeanTween.rotate(gameStateController.Cup.gameObject, gameStateController.DropCupTransform.eulerAngles, 0.3f);
+            LeanTween.rotate(cupDraggable.gameObject, dropCupTransformAngle, 0.3f);
         }
 
-        gameStateController.Cup.GetComponent<Cup>().StopDropletParticle();
+        cup.StopDropletParticle();
+    }
+
+    private void UpdateCupColor()
+    {
+        var color = Color.Lerp(Color.blue, Color.white, plantProgress / PlantTime);
+        var renderer = cupDraggable.GetComponent<Renderer>();
+        renderer.material.color = color;
+    }
+
+    private void OnWateringFinished(Plant plant)
+    {
+        StopWatering();
+        LeanTween.scale(plant.gameObject, plant.transform.localScale * 1.3f, 0.7f).setEaseInOutBack();
+        
+        IsStateDone = true;
     }
 
     private void OnDragStarted()
@@ -101,10 +119,10 @@ public class PlantState : IState, IStateTickable
 
     private void OnAnyPointerUp()
     {
-        LeanTween.move(gameStateController.Cup.gameObject, gameStateController.InitialCupPos, 0.3f);
-        LeanTween.rotate(gameStateController.Cup.gameObject, gameStateController.DropCupTransform.eulerAngles, 0.3f);
+        LeanTween.move(cupDraggable.gameObject, gameStateController.InitialCupPos, 0.3f);
+        LeanTween.rotate(cupDraggable.gameObject, gameStateController.DropCupTransform.eulerAngles, 0.3f);
 
-        gameStateController.Cup.GetComponent<Cup>().StopDropletParticle();
+        cup.StopDropletParticle();
     }
 
 }

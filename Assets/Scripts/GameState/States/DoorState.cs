@@ -1,4 +1,3 @@
-
 public class DoorState : IState
 {
     public int Id => (int) GameState.DoorState;

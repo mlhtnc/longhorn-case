@@ -1,12 +1,15 @@
-using System;
-using NotDecided.InputManagament;
 using UnityEngine;
 
 public class BinState : IState
 {
-    public bool IsStateDone { get; private set; }
-
     private GameStateController gameStateController;
+
+    private Cup cup;
+
+    private DraggableObject cupDraggable;
+
+
+    public bool IsStateDone { get; private set; }
 
     public int Id => (int) GameState.BinState;
 
@@ -14,29 +17,31 @@ public class BinState : IState
     public BinState(GameStateController gameStateController)
     {
         this.gameStateController = gameStateController;
+        this.cup                 = gameStateController.Cup.GetComponent<Cup>();
+        this.cupDraggable        = gameStateController.Cup;
     }
 
     public void OnEnter()
     {
-        if(gameStateController.Cup.IsDragging == false)
+        if(cupDraggable.IsDragging == false)
         {
             ThrowCup();
         }
 
-        gameStateController.Cup.OnDragStarted += OnDragStarted;
-        gameStateController.Cup.OnDragStopped += OnDragStopped;
+        cupDraggable.OnDragStarted += OnDragStarted;
+        cupDraggable.OnDragStopped += OnDragStopped;
     }
 
     public void OnExit()
     {
-        gameStateController.Cup.OnDragStarted -= OnDragStarted;
-        gameStateController.Cup.OnDragStopped -= OnDragStopped;
+        cupDraggable.OnDragStarted -= OnDragStarted;
+        cupDraggable.OnDragStopped -= OnDragStopped;
     }
 
     private void OnDragStarted()
     {
-        gameStateController.Cup.GetComponent<Cup>().DisableRigidbody();
-        gameStateController.Cup.EnableDrag();
+        cup.DisableRigidbody();
+        cupDraggable.EnableDrag();
     }
 
     private void OnDragStopped()
@@ -50,7 +55,7 @@ public class BinState : IState
             {
                 var animTime = 0.4f;
 
-                var cupGo = gameStateController.Cup.gameObject;
+                var cupGo = cupDraggable.gameObject;
                 
                 LeanTween.scale(cupGo, Vector3.one * 0.1f, animTime).setEaseInExpo();
                 LeanTween.moveY(cupGo, bin.transform.position.y, animTime).setEaseInBack();
@@ -71,6 +76,6 @@ public class BinState : IState
 
     private void ThrowCup()
     {
-        gameStateController.Cup.GetComponent<Cup>().ThrowCup();
+        cup.ThrowCup();
     }
 }
