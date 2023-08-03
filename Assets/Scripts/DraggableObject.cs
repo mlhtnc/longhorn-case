@@ -10,6 +10,8 @@ public class DraggableObject : ClickableObject
 
     public event Action OnDragStarted;
 
+    public event Action OnDragStopped;
+
     public bool IsDragging => isPointerDown;
 
     protected override void Start()
@@ -33,6 +35,17 @@ public class DraggableObject : ClickableObject
         base.OnPointerDown(pos);
 
         OnDragStarted?.Invoke();
+    }
+
+    protected override void OnAnyPointerUp()
+    {
+        if(isPointerDown)
+        {
+            OnDragStopped?.Invoke();
+        }
+        
+        // Call this last because it will reset isPointerDown
+        base.OnAnyPointerUp();
     }
 
     private void OnDragged()

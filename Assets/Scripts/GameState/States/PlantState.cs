@@ -3,17 +3,17 @@ using UnityEngine;
 
 public class PlantState : IState, IStateTickable
 {
-    public int Id => (int) GameState.PlantState;
+    private const float PlantTime = 3f;
 
-    public bool IsStateDone { get; private set; }
 
     private GameStateController gameStateController;
 
-    private const float PlantTime = 3f;
-
     private float plantProgress;
 
-    private bool isCupDragged;
+
+    public int Id => (int) GameState.PlantState;
+
+    public bool IsStateDone { get; private set; }
 
 
     public PlantState(GameStateController gameStateController)
@@ -35,7 +35,7 @@ public class PlantState : IState, IStateTickable
 
     public void Tick(float deltaTime)
     {
-        if(isCupDragged == false)
+        if(gameStateController.Cup.IsDragging == false)
             return;
 
         var hit = gameStateController.Raycast(gameStateController.CupLayerMask);
@@ -95,8 +95,6 @@ public class PlantState : IState, IStateTickable
         // NOTE: We disabled collider of water dispenser because cup was inside of it and not clickable
         // Now, we need to enable collider back to make sure cup position updates are correct
         gameStateController.WaterDispenser.GetComponent<BoxCollider>().enabled = true;
-
-        isCupDragged = true;
     }
 
     private void OnAnyPointerUp()

@@ -1,15 +1,15 @@
+using System;
 using NotDecided.InputManagament;
 using UnityEngine;
 
 public class BinState : IState
 {
-    public int Id => (int) GameState.BinState;
-
     public bool IsStateDone { get; private set; }
 
     private GameStateController gameStateController;
 
-    private bool isCupDragged;
+    public int Id => (int) GameState.BinState;
+
 
     public BinState(GameStateController gameStateController)
     {
@@ -22,60 +22,50 @@ public class BinState : IState
         {
             ThrowCup();
         }
-        else
-        {
-            isCupDragged = true;
-        }
 
         gameStateController.Cup.OnDragStarted += OnDragStarted;
-        InputManager.OnAnyPointerUp += OnAnyPointerUp;
+        gameStateController.Cup.OnDragStopped += OnDragStopped;
     }
 
     public void OnExit()
     {
         gameStateController.Cup.OnDragStarted -= OnDragStarted;
-        InputManager.OnAnyPointerUp -= OnAnyPointerUp;
+        gameStateController.Cup.OnDragStopped -= OnDragStopped;
     }
 
     private void OnDragStarted()
     {
-        isCupDragged = true;
         gameStateController.Cup.GetComponent<Cup>().DisableRigidbody();
         gameStateController.Cup.EnableDrag();
     }
 
-    private void OnAnyPointerUp()
+    private void OnDragStopped()
     {
-        if(isCupDragged)
+        var hit = gameStateController.Raycast(gameStateController.CupLayerMask);
+
+        if(hit.collider != null)
         {
-            var hit = gameStateController.Raycast(gameStateController.CupLayerMask);
-
-            if(hit.collider != null)
+            var bin = hit.collider.GetComponent<Bin>();
+            if(bin != null)
             {
-                var bin = hit.collider.GetComponent<Bin>();
-                if(bin != null)
-                {
-                    var animTime = 0.4f;
+                var animTime = 0.4f;
 
-                    var cupGo = gameStateController.Cup.gameObject;
-                    
-                    LeanTween.scale(cupGo, Vector3.one * 0.1f, animTime).setEaseInExpo();
-                    LeanTween.moveY(cupGo, bin.transform.position.y, animTime).setEaseInBack();
-                    LeanTween.moveX(cupGo, bin.transform.position.x, animTime);
-                    LeanTween.moveZ(cupGo, bin.transform.position.z, animTime)
-                    .setOnComplete(() => {
-                        cupGo.SetActive(false);
-                    });
+                var cupGo = gameStateController.Cup.gameObject;
+                
+                LeanTween.scale(cupGo, Vector3.one * 0.1f, animTime).setEaseInExpo();
+                LeanTween.moveY(cupGo, bin.transform.position.y, animTime).setEaseInBack();
+                LeanTween.moveX(cupGo, bin.transform.position.x, animTime);
+                LeanTween.moveZ(cupGo, bin.transform.position.z, animTime)
+                .setOnComplete(() => {
+                    cupGo.SetActive(false);
+                });
 
-                    IsStateDone = true;
-                }
-                else
-                {
-                    ThrowCup();
-                }
+                IsStateDone = true;
             }
-
-            isCupDragged = false;
+            else
+            {
+                ThrowCup();
+            }
         }
     }
 

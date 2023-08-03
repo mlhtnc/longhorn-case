@@ -26,13 +26,13 @@ public class ClickableObject : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         }
     }
 
+    protected virtual void OnAnyPointerUp()
+    {
+        isPointerDown = false;
+    }
+
     private void OnClicked()
     {        
         OnAnyObjectClicked?.Invoke(this);
-    }
-
-    private void OnAnyPointerUp()
-    {
-        isPointerDown = false;
     }
 }

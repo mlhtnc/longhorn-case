@@ -1,18 +1,16 @@
-using System;
-using NotDecided.InputManagament;
 using UnityEngine;
 
 public class CupState : IState
 {
-    public int Id => (int) GameState.CupState;
+    private GameStateController gameStateController;
+
+    private bool isCupPlacedIntoWaterDispenser;
+
 
     public bool IsStateDone { get; private set; }
 
-    private GameStateController gameStateController;
+    public int Id => (int) GameState.CupState;
 
-    private bool isCupDragged;
-
-    private bool isCupPlacedIntoWaterDispenser;
 
     public CupState(GameStateController gameStateController)
     {
@@ -23,27 +21,19 @@ public class CupState : IState
     {
         this.gameStateController.Cup.EnableDrag();
 
-        gameStateController.Cup.OnDragStarted += OnDragStarted;
-        InputManager.OnAnyPointerUp += OnAnyPointerUp;
+        gameStateController.Cup.OnDragStopped += OnDragStopped;
         ClickableObject.OnAnyObjectClicked += OnAnyObjClicked;
     }
 
     public void OnExit()
     {
-        gameStateController.Cup.OnDragStarted -= OnDragStarted;
-        InputManager.OnAnyPointerUp -= OnAnyPointerUp;
+        gameStateController.Cup.OnDragStopped -= OnDragStopped;
         ClickableObject.OnAnyObjectClicked -= OnAnyObjClicked;
     }
 
-    private void OnDragStarted()
+    private void OnDragStopped()
     {
-        isCupDragged = true;
-    }
-
-    // CHANGE: Change this with OnDragStopped ?
-    private void OnAnyPointerUp()
-    {
-        if(isCupDragged == false || isCupPlacedIntoWaterDispenser)
+        if(isCupPlacedIntoWaterDispenser)
             return;
 
         var hit = gameStateController.Raycast(gameStateController.CupLayerMask);

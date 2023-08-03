@@ -46,6 +46,6 @@ public class UIManager : MonoBehaviour
         LeanTween.cancel(circleImage.gameObject);
         circleImage.gameObject.SetActive(false);
 
-        Debug.Log("level completed");
+
     }
 }
