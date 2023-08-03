@@ -11,7 +11,6 @@ public class ClickableObject : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     protected virtual void Start()
     {
         InputManager.OnAnyPointerUp += OnAnyPointerUp;
-        
     }
 
     public virtual void OnPointerDown(Vector3 pos)
@@ -28,11 +27,7 @@ public class ClickableObject : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     }
 
     private void OnClicked()
-    {
-        Debug.Log("clicked");
-        
-        // NOTE: We can highlight the object here
-
+    {        
         OnAnyObjectClicked?.Invoke(this);
     }
 

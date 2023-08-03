@@ -12,8 +12,8 @@ public class Cup : MonoBehaviour
 
     private void Awake()
     {
-        rgBody = GetComponent<Rigidbody>();
-        draggable = GetComponent<DraggableObject>();
+        rgBody      = GetComponent<Rigidbody>();
+        draggable   = GetComponent<DraggableObject>();
     }
 
     public void DisableRigidbody()

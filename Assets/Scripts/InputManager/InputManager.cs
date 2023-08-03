@@ -16,6 +16,8 @@ namespace NotDecided.InputManagament
 
         private bool isInputDisabled;
 
+        public static event Action OnAnyPointerDown;
+
         public static event Action OnAnyPointerUp;
 
         private void Awake()
@@ -65,6 +67,8 @@ namespace NotDecided.InputManagament
             {
                 hit.transform.GetComponent<IPointerDownHandler>()?.OnPointerDown(hit.point);
             }
+
+            OnAnyPointerDown?.Invoke();
         }
      
         private void OnMouseUp()

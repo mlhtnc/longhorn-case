@@ -59,7 +59,7 @@ public class BinState : IState
 
                     var cupGo = gameStateController.Cup.gameObject;
                     
-                    LeanTween.scale(cupGo, Vector3.one * 0.1f, animTime);
+                    LeanTween.scale(cupGo, Vector3.one * 0.1f, animTime).setEaseInExpo();
                     LeanTween.moveY(cupGo, bin.transform.position.y, animTime).setEaseInBack();
                     LeanTween.moveX(cupGo, bin.transform.position.x, animTime);
                     LeanTween.moveZ(cupGo, bin.transform.position.z, animTime)
