@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using NotDecided.InputManagament;
 using UnityEngine;
+using NotDecided.InputManagament;
 
 public class SelectableManager : MonoBehaviour
 {

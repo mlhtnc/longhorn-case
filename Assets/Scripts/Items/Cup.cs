@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class Cup : MonoBehaviour
@@ -11,6 +10,18 @@ public class Cup : MonoBehaviour
 
     [SerializeField]
     private Transform dropletParticlePoint;
+
+    [SerializeField]
+    private float minDistance;
+
+    [SerializeField]
+    private float maxDistance;
+
+    [SerializeField]
+    private float minForce;
+
+    [SerializeField]
+    private float maxForce;
 
     private DraggableObject draggable;
 
@@ -43,7 +54,7 @@ public class Cup : MonoBehaviour
         
         var distance = Vector3.Distance(throwPoint.position, transform.position);
         var direction = (throwPoint.position - transform.position).normalized;
-        var force = NormalizationHelper.MinMax(0f, 10f, 80f, 350f, distance);
+        var force = NormalizationHelper.MinMax(minDistance, maxDistance, minForce, maxForce, distance);
 
         rgBody.AddForce(direction * force, ForceMode.Force);
     }

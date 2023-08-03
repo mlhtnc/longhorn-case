@@ -7924,6 +7924,10 @@ MonoBehaviour:
   throwPoint: {fileID: 368782956}
   dropletParticle: {fileID: 1984085152}
   dropletParticlePoint: {fileID: 1956214049}
+  minDistance: 0
+  maxDistance: 10
+  minForce: 80
+  maxForce: 350
 --- !u!54 &1668286824
 Rigidbody:
   m_ObjectHideFlags: 0
