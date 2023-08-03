@@ -6,6 +6,8 @@ public class CupState : IState
 
     private bool isCupPlacedIntoWaterDispenser;
 
+    private bool isWaterFilling;
+
 
     public bool IsStateDone { get; private set; }
 
@@ -57,12 +59,14 @@ public class CupState : IState
     
     private void OnAnyObjClicked(ClickableObject obj)
     {
-        if(isCupPlacedIntoWaterDispenser == false)
+        if(isWaterFilling || isCupPlacedIntoWaterDispenser == false)
             return;
         
         var waterDispenser = obj.GetComponent<WaterDispenser>();
         if(waterDispenser != null)
         {
+            isWaterFilling = true;
+
             var seq = LeanTween.sequence();
 
             var animTime = 2f;
