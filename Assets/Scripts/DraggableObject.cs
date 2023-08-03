@@ -33,8 +33,6 @@ public class DraggableObject : ClickableObject
         base.OnPointerDown(pos);
 
         OnDragStarted?.Invoke();
-
-        Debug.Log(transform.name);
     }
 
     private void OnDragged()

@@ -25,6 +25,9 @@ public class GameStateController : MonoBehaviour
     [SerializeField]
     private LayerMask cupLayerMask;
 
+    [SerializeField]
+    private LayerMask doorLayerMask;
+
     #endregion
 
     #region Fields
@@ -44,6 +47,8 @@ public class GameStateController : MonoBehaviour
     public DraggableObject Cup => cup;
 
     public LayerMask CupLayerMask => cupLayerMask;
+
+    public LayerMask DoorLayerMask => doorLayerMask;
 
     public Transform DropCupTransform => dropCupTransform;
 
@@ -73,7 +78,7 @@ public class GameStateController : MonoBehaviour
         var cupState    = new CupState(this);
         var plantState  = new PlantState(this);
         var binState    = new BinState(this);
-        var doorState   = new DoorState();
+        var doorState   = new DoorState(this);
 
         stateMachine.AddTransition(
             boardState,

@@ -21,8 +21,6 @@ public class CupState : IState
 
     public void OnEnter()
     {
-        UnityEngine.Debug.Log("Cup State entered");
-
         this.gameStateController.Cup.EnableDrag();
 
         gameStateController.Cup.OnDragStarted += OnDragStarted;
