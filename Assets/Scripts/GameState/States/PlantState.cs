@@ -1,4 +1,3 @@
-using System;
 using NotDecided.InputManagament;
 using UnityEngine;
 
@@ -10,7 +9,7 @@ public class PlantState : IState, IStateTickable
 
     private GameStateController gameStateController;
 
-    private const float PlantTime = 2f;
+    private const float PlantTime = 3f;
 
     private float plantProgress;
 
@@ -46,17 +45,10 @@ public class PlantState : IState, IStateTickable
             var plant = hit.collider.GetComponent<Plant>();
             if(plant != null)
             {
-                if(LeanTween.isTweening(gameStateController.Cup.gameObject) == false &&
-                    gameStateController.Cup.transform.eulerAngles != gameStateController.CupPlantTransform.eulerAngles)
-                {
-                    LeanTween.rotate(gameStateController.Cup.gameObject, gameStateController.CupPlantTransform.eulerAngles, 0.3f);
-                }
-
-                // Water plant particle loop start
-
                 plantProgress += Time.deltaTime;
                 if(plantProgress >= PlantTime)
                 {
+                    StopPlanting();
                     IsStateDone = true;
                 }
                 else
@@ -64,19 +56,38 @@ public class PlantState : IState, IStateTickable
                     var color = Color.Lerp(Color.blue, Color.white, plantProgress / PlantTime);
                     var renderer = gameStateController.Cup.GetComponent<Renderer>();
                     renderer.material.color = color;
+
+                    ContinuePlanting();
                 }
             }
             else
             {
-                if(LeanTween.isTweening(gameStateController.Cup.gameObject) == false &&
-                    gameStateController.Cup.transform.eulerAngles != gameStateController.DropCupTransform.eulerAngles)
-                {
-                    LeanTween.rotate(gameStateController.Cup.gameObject, gameStateController.DropCupTransform.eulerAngles, 0.3f);
-                }
-
-                // Water plant particle loop stop
+                StopPlanting();
             }
         }        
+    }
+
+    private void ContinuePlanting()
+    {
+        gameStateController.Cup.GetComponent<Cup>().PlayDropletParticle();
+
+        if(LeanTween.isTweening(gameStateController.Cup.gameObject) == false &&
+            gameStateController.Cup.transform.eulerAngles != gameStateController.CupPlantTransform.eulerAngles)
+        {
+            LeanTween.rotate(gameStateController.Cup.gameObject, gameStateController.CupPlantTransform.eulerAngles, 0.3f);
+        }
+
+    }
+
+    private void StopPlanting()
+    {
+        if(LeanTween.isTweening(gameStateController.Cup.gameObject) == false &&
+            gameStateController.Cup.transform.eulerAngles != gameStateController.DropCupTransform.eulerAngles)
+        {
+            LeanTween.rotate(gameStateController.Cup.gameObject, gameStateController.DropCupTransform.eulerAngles, 0.3f);
+        }
+
+        gameStateController.Cup.GetComponent<Cup>().StopDropletParticle();
     }
 
     private void OnDragStarted()

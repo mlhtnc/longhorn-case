@@ -75,14 +75,27 @@ public class CupState : IState
         {
             var seq = LeanTween.sequence();
 
-            seq.append(() => {
-                // Play particle here
-            });
-            seq.append(1f);
+            var animTime = 2f;
 
             seq.append(() => {
+                waterDispenser.PlayDropletParticle();
+
                 var renderer = gameStateController.Cup.GetComponent<Renderer>();
-                renderer.material.color = Color.blue;
+
+                LeanTween.value(gameStateController.Cup.gameObject, 0f, 1f, animTime)
+                .setOnUpdate((float val) => {
+                    var color = Color.Lerp(Color.white, Color.blue, val);
+                    renderer.material.color = color;
+                });
+            });
+            seq.append(animTime);
+
+            seq.append(() => {
+                waterDispenser.StopDropletParticle();
+            });
+
+            seq.append(() => {
+                
 
                 IsStateDone = true;
 
