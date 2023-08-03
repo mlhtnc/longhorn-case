@@ -8,6 +8,8 @@ public class BoardState : IState
 
     private GameStateController gameStateController;
 
+    private bool isDrawingStarted;
+
     public bool IsStateDone { get; private set; }
 
 
@@ -36,8 +38,10 @@ public class BoardState : IState
         }
 
         var board = obj.GetComponent<Board>();
-        if(board != null && selectedPen != null)
+        if(isDrawingStarted == false && board != null && selectedPen != null)
         {
+            isDrawingStarted = true;
+
             var seq = LeanTween.sequence();
 
             seq.append(() => {
