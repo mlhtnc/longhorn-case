@@ -1,3 +1,4 @@
+using System;
 using NotDecided.InputManagament;
 using UnityEngine;
 
@@ -30,13 +31,13 @@ public class PlantState : IState, IStateTickable
     public void OnEnter()
     {
         cupDraggable.OnDragStarted      += OnDragStarted;
-        InputManager.OnAnyPointerUp     += OnAnyPointerUp;
+        cupDraggable.OnDragStopped      += OnDragStopped;
     }
 
     public void OnExit()
     {
         cupDraggable.OnDragStarted      -= OnDragStarted;
-        InputManager.OnAnyPointerUp     -= OnAnyPointerUp;
+        cupDraggable.OnDragStopped      -= OnDragStopped;
     }
 
     public void Tick(float deltaTime)
@@ -106,7 +107,7 @@ public class PlantState : IState, IStateTickable
     {
         StopWatering();
         LeanTween.scale(plant.gameObject, plant.transform.localScale * 1.3f, 0.7f).setEaseInOutBack();
-        
+
         IsStateDone = true;
     }
 
@@ -117,12 +118,11 @@ public class PlantState : IState, IStateTickable
         gameStateController.WaterDispenser.GetComponent<BoxCollider>().enabled = true;
     }
 
-    private void OnAnyPointerUp()
+    private void OnDragStopped()
     {
         LeanTween.move(cupDraggable.gameObject, gameStateController.InitialCupPos, 0.3f);
         LeanTween.rotate(cupDraggable.gameObject, gameStateController.DropCupTransform.eulerAngles, 0.3f);
 
         cup.StopDropletParticle();
     }
-
 }
