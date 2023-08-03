@@ -67,7 +67,7 @@ public class DraggableObject : ClickableObject
             return;
         }
         
-        var newPos = 0.4f * -ray.direction + hit.point;
+        var newPos = 0.2f * -ray.direction + hit.point;
         newPos.y += .1f;
 
         transform.position = newPos;
