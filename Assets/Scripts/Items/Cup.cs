@@ -43,7 +43,7 @@ public class Cup : MonoBehaviour
         
         var distance = Vector3.Distance(throwPoint.position, transform.position);
         var direction = (throwPoint.position - transform.position).normalized;
-        var force = NormalizationHelper.MinMax(0f, 10f, 100f, 300f, distance);
+        var force = NormalizationHelper.MinMax(0f, 10f, 80f, 350f, distance);
 
         rgBody.AddForce(direction * force, ForceMode.Force);
     }

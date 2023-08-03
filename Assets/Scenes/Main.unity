@@ -695,8 +695,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.3258238, y: 4.4660187, z: 0.5000005}
-  m_Center: {x: -1.6629122, y: 2.2330074, z: 0.0000000322736}
+  m_Size: {x: 3.79994, y: 8.0074, z: 0.5000005}
+  m_Center: {x: -1.8999704, y: 4.0036974, z: 0.00000005364241}
 --- !u!1001 &287186339
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7007,7 +7007,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.2507782, y: 0.36831567, z: -0.10387573, w: 0.88919276}
-  m_LocalPosition: {x: -4.65, y: 3.4, z: -4.58}
+  m_LocalPosition: {x: -8.96, y: 7.14, z: -8.89}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7118,8 +7118,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.6516898, y: 0.50000054, z: 3.6382625}
-  m_Center: {x: -0.8118334, y: 0.24999991, z: -0.8051326}
+  m_Size: {x: 4.901567, y: 0.50000054, z: 4.9827356}
+  m_Center: {x: -1.4367623, y: 0.24999987, z: -1.4773698}
 --- !u!1 &1008148508 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2799242785918641492, guid: 436d6c6ad13444243927518c3405f6ea, type: 3}
@@ -7975,8 +7975,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2, y: 4.461386, z: 0.5000001}
-  m_Center: {x: -0.9999999, y: 2.2241576, z: -0.00000018570495}
+  m_Size: {x: 5.184012, y: 8.0294285, z: 0.5000001}
+  m_Center: {x: -2.5920217, y: 4.008178, z: -0.00000023864857}
 --- !u!1001 &1691904311
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8227,8 +8227,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.6500004, y: 4.480275, z: 0.6500008}
-  m_Center: {x: -0.07500017, y: 2.2403462, z: 0.074999854}
+  m_Size: {x: 0.6500004, y: 8.021655, z: 0.6500065}
+  m_Center: {x: -0.07500071, y: 4.0110364, z: 0.07500004}
 --- !u!1 &1857512220
 GameObject:
   m_ObjectHideFlags: 0
@@ -13599,8 +13599,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.0000002, y: 4.466455, z: 0.5000002}
-  m_Center: {x: -1.0000004, y: 2.2332282, z: 0.0000002552194}
+  m_Size: {x: 2.0000002, y: 8.02462, z: 0.5000002}
+  m_Center: {x: -1.0000039, y: 4.012309, z: 0.00000009156134}
 --- !u!1 &2095482561 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8586645781547976933, guid: 2ac7e6eb682174e7f8af567817914142, type: 3}
