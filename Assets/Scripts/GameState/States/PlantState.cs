@@ -50,6 +50,8 @@ public class PlantState : IState, IStateTickable
                 {
                     StopPlanting();
                     IsStateDone = true;
+
+                    LeanTween.scale(plant.gameObject, plant.transform.localScale * 1.3f, 0.7f).setEaseInOutBack();
                 }
                 else
                 {
